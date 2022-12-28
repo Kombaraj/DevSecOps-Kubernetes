@@ -1,0 +1,82 @@
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.11.61:6443 --token <value withheld> \
+    --discovery-token-ca-cert-hash sha256:553b36f8087f46b1319f605221a6b1405eb58f9fa263a959fa28dbba2fc19e6a
+
+	
+	******
+	
+
+Section 2: installing software on VM
+1 upvote
+Radha · Lecture 16 · 1 month ago
+Hi, the older link for installing the weave works CNI plugin doesn't work. Please update the bash script from this section with the updated link. "kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml"
+
+The older link "kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" is obsolete. Since the network plugin wasnt installed, my node was marked as notReady because of this reason. Thanks!
+
+
+kubectl taint node $(kubectl get nodes -o=jsonpath='{.items[].metadata.name}') node-role.kubernetes.io/master-	
+
+
+*******
+
+
+- Within the Azure VM 
+- Clone the Forked GitHub Repository
+- Change to "***/setup/vm-install-script/" directory
+- Run bash install-script.sh
+
+###
+kubectl get node -o wide
+kubectl run nginx-pod --image nginx
+kubectl expose po nginx-pod --port 80 --type NodePort
+kubectl get svc
+
+Get the NodePort and use your VM external IP to access Nginx Welcome page.
+
+
+********
+
+Jenkins
+
+http://ec2-3-239-150-243.compute-1.amazonaws.com:8080/
+
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+systemctl status jenkins 
+
+Checking Jenkins version -
+
+cat /var/lib/jenkins/config.xml | grep -i version
+
+If the version displayed is greater than 2.289.1 run the below commands to downgrade Jenkins
+
+sudo apt install -y --allow-downgrades jenkins=2.289.1
+systemctl daemon-reload
+systemctl enable jenkins
+sudo systemctl start jenkins
+
+Jenkins Plugins installation
+
+## Jenkins Password
+cat /var/lib/jenkins/secrets/initialAdminPassword
+
+## Install Plugins
+Change Dir to /****/setup/jenkins-plugins
+Run cmd - bash plugin-installer.sh
+
+
