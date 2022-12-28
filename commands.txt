@@ -80,3 +80,8 @@ Change Dir to /****/setup/jenkins-plugins
 Run cmd - bash plugin-installer.sh
 
 
+## Version Checking
+02_04_Jenkins_Pipeline_Version_Check.txt
+
+
+
